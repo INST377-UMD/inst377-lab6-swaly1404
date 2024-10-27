@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Map of US</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+    <style>
+        #map { 
+            height: 500px; 
+            width: 100%;
+        }
+        .coordinate-text {
+            font-family: monospace;
+            margin: 10px;
+            white-space: pre-line;
+        }
+    </style>
+</head>
+<body>
+    <h1>Map of US</h1>
+    <div id="map"></div>
+    <div class="coordinate-text" id="coordinates"></div>
+
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script>
+        // First required code: random coordinate generator
+        function getRandomInRange(from, to, fixed) {
+            return (Math.random() * (to - from) + from).toFixed(fixed) * 1;
+        }
+
+        // Initialize map centered on US
+        var map = L.map('map').setView([39.8283, -98.5795], 4);
+
+        L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            maxZoom: 19,
+            attribution: '© OpenStreetMap contributors'
+        }).addTo(map);
+
+        // Generate coordinates with  US range
+        var coord1 = [getRandomInRange(30, 42, 3), getRandomInRange(-115, -85, 3)];
+        var coord2 = [getRandomInRange(30, 42, 3), getRandomInRange(-115, -85, 3)];
+        var coord3 = [getRandomInRange(30, 42, 3), getRandomInRange(-115, -85, 3)];
+
+        // Second required code: three types of markers (from London example)
+        var marker = L.marker(coord1).addTo(map);
+        var circle = L.marker(coord2).addTo(map);
+        var polygon = L.marker(coord3).addTo(map);
+
+        // Display coordinates in exact format
+        var coordText = `Marker 1: Latitude: ${coord1[0]}, Longitude: ${coord1[1]}\nLocality: District 1\n\n` +
+                       `Marker 2: Latitude: ${coord2[0]}, Longitude: ${coord2[1]}\nLocality: San Diego\n\n` +
+                       `Marker 3: Latitude: ${coord3[0]}, Longitude: ${coord3[1]}\nLocality: District 2`;
+
+        document.getElementById('coordinates').innerText = coordText;
+    </script>
+</body>
+</html>
